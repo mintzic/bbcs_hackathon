@@ -23,7 +23,7 @@ function setCorsHeaders(response, origin, allowedOrigins) {
   headers.set(CORS_HEADERS.credentials, "true");
   headers.set(CORS_HEADERS.origin, allowedOrigin);
   headers.set(CORS_HEADERS.methods, "GET, POST, PUT, DELETE, OPTIONS");
-  headers.set(CORS_HEADERS.headers, "Content-Type, Authorization, X-Requested-With");
+  headers.set(CORS_HEADERS.headers, "Content-Type, Authorization, X-Requested-With, X-User-Id");
 }
 
 export function middleware(request) {
@@ -37,7 +37,7 @@ export function middleware(request) {
     return response;
   }
 
-  // Check authentication for protected methods
+  // For protected methods, check authentication
   if (PROTECTED_METHODS.includes(request.method)) {
     const sessionCookie = request.cookies.get("session_cookie");
     const isAuthPath = request.nextUrl.pathname.startsWith("/api/auth/");
@@ -53,9 +53,28 @@ export function middleware(request) {
       setCorsHeaders(response, origin, allowedOrigins);
       return response;
     }
+
+    // Add user ID to headers for authorized requests
+    if (sessionCookie?.value) {
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("X-User-Id", sessionCookie.value);
+
+      const nextRequest = new Request(request.url, {
+        method: request.method,
+        headers: requestHeaders,
+        body: request.body,
+      });
+
+      const response = NextResponse.next({
+        request: nextRequest,
+      });
+
+      setCorsHeaders(response, origin, allowedOrigins);
+      return response;
+    }
   }
 
-  // Handle authorized requests
+  // For non-protected methods or paths
   const response = NextResponse.next();
   setCorsHeaders(response, origin, allowedOrigins);
   return response;
