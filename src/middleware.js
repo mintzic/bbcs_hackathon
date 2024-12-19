@@ -17,6 +17,23 @@ export function middleware(request) {
     });
   }
 
+  if (["POST", "PUT", "DELETE"].includes(request.method)) {
+    const sessionCookie = request.cookies.get("session_cookie");
+    const userId = sessionCookie?.value;
+
+    const isAuthPath = request.nextUrl.pathname.startsWith("/api/auth/");
+
+    if (!isAuthPath && !userId) {
+      return Response.json(
+        {
+          status: "error",
+          message: "Unauthorized - Please log in",
+        },
+        { status: 401, headers: headers }
+      );
+    }
+  }
+
   return Response.next({
     request: {
       headers: headers,

@@ -33,6 +33,15 @@ export async function POST(request) {
 
     delete existingUser.rows[0].password;
 
+    response.cookies.set({
+      name: "session_cookie",
+      value: existingUser.rows[0].id.toString(),
+      httpOnly: true,
+      path: "/",
+      // secure: true,
+      // sameSite: 'strict'
+    });
+
     return Response.json(
       {
         status: "success",
