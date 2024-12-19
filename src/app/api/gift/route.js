@@ -3,7 +3,7 @@ import db from "@/app/api/db";
 
 export async function GET(request) {
   try {
-    const result = await db.query("SELECT * FROM products");
+    const result = await db.query("SELECT * FROM gift");
 
     return NextResponse.json(
       {
@@ -13,11 +13,11 @@ export async function GET(request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Get all products error:", error);
+    console.error("Get all gifts error:", error);
     return NextResponse.json(
       {
         status: "error",
-        message: "Failed to get all products",
+        message: "Failed to get all gifts",
         details: error.message,
       },
       { status: 500 }

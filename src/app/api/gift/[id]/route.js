@@ -3,14 +3,14 @@ import db from "@/app/api/db";
 
 export async function GET(request, { params }) {
   try {
-    const productId = params.id;
-    const result = await db.query("SELECT * FROM products WHERE id = $1", [productId]);
+    const giftId = params.id;
+    const result = await db.query("SELECT * FROM gift WHERE id = $1", [giftId]);
 
     if (result.rows.length === 0) {
       return NextResponse.json(
         {
           status: "error",
-          message: "Product not found",
+          message: "Gift not found",
         },
         { status: 404 }
       );
@@ -24,11 +24,11 @@ export async function GET(request, { params }) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Get product error:", error);
+    console.error("Get gift error:", error);
     return NextResponse.json(
       {
         status: "error",
-        message: "Failed to get product",
+        message: "Failed to get gift",
         details: error.message,
       },
       { status: 500 }
@@ -38,7 +38,7 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    const productId = params.id;
+    const giftId = params.id;
     const body = await request.json();
     const { name, price, description } = body;
 
@@ -52,54 +52,54 @@ export async function PUT(request, { params }) {
       );
     }
 
-    // First check if product exists
-    const checkProduct = await db.query("SELECT id FROM products WHERE id = $1", [productId]);
-    if (checkProduct.rows.length === 0) {
+    // First check if gift exists
+    const checkGift = await db.query("SELECT id FROM products WHERE id = $1", [giftId]);
+    if (checkGift.rows.length === 0) {
       return NextResponse.json(
         {
           status: "error",
-          message: "Product not found",
+          message: "Gift not found",
         },
         { status: 404 }
       );
     }
 
     // Check if product belongs to user
-    const checkProductOwner = await db.query("SELECT id FROM products WHERE id = $1 AND user_id = $2", [
-      productId,
+    const checkGiftOwner = await db.query("SELECT id FROM gift WHERE id = $1 AND user_id = $2", [
+      giftId,
       request.headers.get("X-User-Id"),
     ]);
-    if (checkProductOwner.rows.length === 0) {
+    if (checkGiftOwner.rows.length === 0) {
       return NextResponse.json(
         {
           status: "error",
-          message: "Product does not belong to user",
+          message: "Gift does not belong to user",
         },
         { status: 403 }
       );
     }
 
     // Update
-    await db.query("UPDATE products SET name = $1, price = $2, description = $3 WHERE id = $4", [
+    await db.query("UPDATE gift SET name = $1, price = $2, description = $3 WHERE id = $4", [
       name,
       price,
       description,
-      productId,
+      giftId,
     ]);
 
     return NextResponse.json(
       {
         status: "success",
-        message: "Product updated successfully",
+        message: "Gift updated successfully",
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Update product error:", error);
+    console.error("Update gift error:", error);
     return NextResponse.json(
       {
         status: "error",
-        message: "Failed to update product",
+        message: "Failed to update gift",
         details: error.message,
       },
       { status: 500 }
@@ -109,11 +109,11 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const productId = params.id;
+    const giftId = params.id;
 
-    // First check if product exists
-    const checkProduct = await db.query("SELECT id FROM products WHERE id = $1", [productId]);
-    if (checkProduct.rows.length === 0) {
+    // First check if gift exists
+    const checkGift = await db.query("SELECT id FROM products WHERE id = $1", [giftId]);
+    if (checkGift.rows.length === 0) {
       return NextResponse.json(
         {
           status: "error",
@@ -123,37 +123,37 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    // Check if product belongs to user
-    const checkProductOwner = await db.query("SELECT id FROM products WHERE id = $1 AND user_id = $2", [
-      productId,
+    // Check if gift belongs to user
+    const checkGiftOwner = await db.query("SELECT id FROM gift WHERE id = $1 AND user_id = $2", [
+      giftId,
       request.headers.get("X-User-Id"),
     ]);
-    if (checkProductOwner.rows.length === 0) {
+    if (checkGiftOwner.rows.length === 0) {
       return NextResponse.json(
         {
           status: "error",
-          message: "Product does not belong to user",
+          message: "Gift does not belong to user",
         },
         { status: 403 }
       );
     }
 
     // Delete product using stored procedure
-    await db.query("CALL delete_product($1)", [productId]);
+    await db.query("CALL delete_gift($1)", [giftId]);
 
     return NextResponse.json(
       {
         status: "success",
-        message: "Product deleted successfully",
+        message: "Gift deleted successfully",
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Delete product error:", error);
+    console.error("Delete gift error:", error);
     return NextResponse.json(
       {
         status: "error",
-        message: "Failed to delete product",
+        message: "Failed to delete gift",
         details: error.message,
       },
       { status: 500 }
