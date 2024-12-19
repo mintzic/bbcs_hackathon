@@ -113,7 +113,6 @@ export async function DELETE(request, { params }) {
 
     // First check if product exists
     const checkProduct = await db.query("SELECT id FROM products WHERE id = $1", [productId]);
-
     if (checkProduct.rows.length === 0) {
       return NextResponse.json(
         {
@@ -121,6 +120,21 @@ export async function DELETE(request, { params }) {
           message: "Product not found",
         },
         { status: 404 }
+      );
+    }
+
+    // Check if product belongs to user
+    const checkProductOwner = await db.query("SELECT id FROM products WHERE id = $1 AND user_id = $2", [
+      productId,
+      request.headers.get("X-User-Id"),
+    ]);
+    if (checkProductOwner.rows.length === 0) {
+      return NextResponse.json(
+        {
+          status: "error",
+          message: "Product does not belong to user",
+        },
+        { status: 403 }
       );
     }
 
