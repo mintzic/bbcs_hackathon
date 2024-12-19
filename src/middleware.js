@@ -1,46 +1,63 @@
-// src/middleware.js
 import { NextResponse } from "next/server";
 
-export function middleware(request) {
-  const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000"];
+// Constants
+const PROTECTED_METHODS = ["POST", "PUT", "DELETE"];
+const DEFAULT_ORIGIN = "http://localhost:3000";
+const CORS_HEADERS = {
+  credentials: "Access-Control-Allow-Credentials",
+  origin: "Access-Control-Allow-Origin",
+  methods: "Access-Control-Allow-Methods",
+  headers: "Access-Control-Allow-Headers",
+};
+
+// Helper functions
+function getAllowedOrigin(request, allowedOrigins) {
   const origin = request.headers.get("origin");
+  return allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+}
 
-  // Create the response
-  const response = NextResponse.next();
+function setCorsHeaders(response, origin, allowedOrigins) {
+  const headers = response.headers;
+  const allowedOrigin = getAllowedOrigin({ headers: { get: () => origin } }, allowedOrigins);
 
-  // Set CORS headers
-  response.headers.set("Access-Control-Allow-Credentials", "true");
-  response.headers.set("Access-Control-Allow-Origin", allowedOrigins.includes(origin) ? origin : allowedOrigins[0]);
-  response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+  headers.set(CORS_HEADERS.credentials, "true");
+  headers.set(CORS_HEADERS.origin, allowedOrigin);
+  headers.set(CORS_HEADERS.methods, "GET, POST, PUT, DELETE, OPTIONS");
+  headers.set(CORS_HEADERS.headers, "Content-Type, Authorization, X-Requested-With");
+}
+
+export function middleware(request) {
+  const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [DEFAULT_ORIGIN];
+  const origin = request.headers.get("origin");
 
   // Handle preflight
   if (request.method === "OPTIONS") {
-    return new NextResponse(null, {
-      status: 204,
-      headers: response.headers,
-    });
+    const response = new NextResponse(null, { status: 204 });
+    setCorsHeaders(response, origin, allowedOrigins);
+    return response;
   }
 
   // Check authentication for protected methods
-  if (["POST", "PUT", "DELETE"].includes(request.method)) {
+  if (PROTECTED_METHODS.includes(request.method)) {
     const sessionCookie = request.cookies.get("session_cookie");
     const isAuthPath = request.nextUrl.pathname.startsWith("/api/auth/");
 
     if (!isAuthPath && !sessionCookie?.value) {
-      return NextResponse.json(
+      const response = NextResponse.json(
         {
           status: "error",
           message: "Unauthorized - Please log in",
         },
-        {
-          status: 401,
-          headers: response.headers,
-        }
+        { status: 401 }
       );
+      setCorsHeaders(response, origin, allowedOrigins);
+      return response;
     }
   }
 
+  // Handle authorized requests
+  const response = NextResponse.next();
+  setCorsHeaders(response, origin, allowedOrigins);
   return response;
 }
 
