@@ -1,4 +1,5 @@
-import db from "../../db";
+import db from "@/app/api/db";
+import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
@@ -6,7 +7,7 @@ export async function POST(request) {
     const { username, password } = body;
 
     if (!username || !password) {
-      return Response.json(
+      return NextResponse.json(
         {
           status: "error",
           message: "Missing required fields",
@@ -22,7 +23,7 @@ export async function POST(request) {
     ]);
 
     if (existingUser.rows.length === 0) {
-      return Response.json(
+      return NextResponse.json(
         {
           status: "error",
           message: "Invalid username or password",
@@ -31,31 +32,37 @@ export async function POST(request) {
       );
     }
 
-    delete existingUser.rows[0].password;
+    const user = { ...existingUser.rows[0] };
+    delete user.password;
 
-    response.cookies.set({
-      name: "session_cookie",
-      value: existingUser.rows[0].id.toString(),
-      httpOnly: true,
-      path: "/",
-      // secure: true,
-      // sameSite: 'strict'
-    });
-
-    return Response.json(
+    const response = NextResponse.json(
       {
         status: "success",
         message: "Login successful",
-        data: existingUser.rows[0],
+        data: user,
       },
       { status: 200 }
     );
+
+    // Set cookie in Next.js 14+ way
+    response.cookies.set({
+      name: "session_cookie",
+      value: user.id.toString(),
+      httpOnly: true,
+      path: "/",
+      // Enable these in production
+      // secure: process.env.NODE_ENV === 'production',
+      // sameSite: 'strict'
+    });
+
+    return response;
   } catch (error) {
     console.error("Login error:", error);
-    return Response.json(
+    return NextResponse.json(
       {
         status: "error",
         message: "Login failed",
+        details: error.message,
       },
       { status: 500 }
     );
