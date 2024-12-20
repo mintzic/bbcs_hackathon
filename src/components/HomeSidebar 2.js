@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Gift, CalendarRange, CircleUser, Package } from "lucide-react";
-import Image from "next/image";
 
 const projects = [
   {
@@ -29,15 +28,8 @@ const projects = [
 
 const HomeSidebar = () => {
   return (
-    <div className="h-screen backdrop-blur bg-beige text-black  p-4 md:ps-24 flex flex-col w-16 md:w-1/4 transition-all m-3 rounded-md shadow-md ">
-      <nav className="flex flex-col space-y-6 items ">
-        <Image
-        src="/logo.png"
-        width={100}
-        height={100}
-        alt="logo"
-        />
-
+    <div className="h-screen backdrop-blur bg-beige text-black  p-4 md:ps-24 flex flex-col w-16 md:w-1/4 transition-all ">
+      <nav className="flex flex-col space-y-6 items">
         {projects.map((project) => (
           <SidebarItem
             key={project.name}
@@ -55,7 +47,7 @@ const SidebarItem = ({ icon, label, url }) => {
   return (
     <Link
       href={url}
-      className="flex items-center space-x-4 hover:bg-yellow-400 hover:text-green-900   p-2 rounded-md cursor-pointer"
+      className="flex items-center space-x-4 hover:bg-red-400 hover:text-green-900   p-2 rounded-md cursor-pointer"
     >
       {icon}
       <span className="hidden md:inline-block text-lg font-semibold">{label}</span>

@@ -66,7 +66,7 @@ const CreateCard = ({ title, showPrice, showDeadline, onSubmit }) => {
           <AddPhotosButton onChange={handleImageUpload} />
           <button
             type="submit"
-            className="bg-yellow-400 text-red-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-300"
+            className="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition"
           >
             Submit
           </button>
@@ -80,7 +80,7 @@ const CreateCard = ({ title, showPrice, showDeadline, onSubmit }) => {
 };
 
 const AddPhotosButton = ({ onChange }) => (
-  <label className="bg-yellow-400 text-red-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-300">
+  <label className="cursor-pointer bg-black hover:bg-gray-800 text-white py-2 px-4 rounded-md transition flex items-center justify-center">
     <ImagePlus className="w-6 h-6" />
     <input type="file" accept="image/*" multiple onChange={onChange} className="hidden" />
   </label>
