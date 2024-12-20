@@ -1,10 +1,67 @@
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+
+/* globals.css */
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Cormorant Garamond', serif;
 }
+
+
+
+/* body {
+  font-family: Arial, Helvetica, sans-serif;
+} */
+
+/* Custom Background Colors */
+.bg-cream {
+  background-color: #F9F7F0;
+}
+
+.text-cream {
+  color: #F9F7F0;
+}
+
+.border-cream {
+  border-color: #F9F7F0;
+}
+
+.bg-beige {
+  background-color: #F0E8D5;
+}
+
+.text-beige {
+  color: #F0E8D5;
+}
+
+.border-beige {
+  border-color: #F0E8D5;
+}
+
+.bg-sand {
+  background-color: #E1D2AC;
+}
+
+.text-sand {
+  color: #E1D2AC;
+}
+
+.border-sand {
+  border-color: #E1D2AC;
+}
+
+
+
+
+
 
 @layer base {
   :root {
@@ -33,6 +90,14 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -59,6 +124,14 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -70,3 +143,13 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+
+
+
+  
+  
+
+
+
