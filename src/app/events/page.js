@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import HomeSidebar from "@/components/HomeSidebar";
 import CreateCard from "@/components/CreateCard";
@@ -6,53 +6,53 @@ import PostsCards from "@/components/PostsCards";
 import WalletCard from "@/components/WalletCard";
 import TopDonorsCard from "@/components/TopDonorsCard";
 
-const sampleWishes = [
+const sampleEvents = [
   {
-    userName: "John Doe",
-    userHandle: "johndoe",
-    userAvatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    description: "Wishing for a new gaming console this Christmas! 🎮",
-    goalAmount: 500,
-    currentAmount: 150,
+    userName: "Alice Brown",
+    userHandle: "alicebrown",
+    userAvatar: "https://randomuser.me/api/portraits/women/3.jpg",
+    description: "Join us for a Christmas charity bake sale! 🍪",
+    eventDate: "2024-12-20",
+    location: "Community Hall, Main Street",
     images: [
-      "https://via.placeholder.com/600x400?text=Gaming+Console+1",
-      "https://via.placeholder.com/600x400?text=Gaming+Console+2",
+       "https://www.ageuk.org.uk/bp-assets/globalassets/milton-keynes/original-blocks/get-involved/fundraising/jingle-bakes-landscape-2.jpg",
+      "https://www.spd.org.sg/wp-content/uploads/2021/11/spd-bakery-2021-1000x650.jpg",
     ],
   },
   {
-    userName: "Jane Smith",
-    userHandle: "janesmith",
-    userAvatar: "https://randomuser.me/api/portraits/women/1.jpg",
-    description: "Hoping to get a new bicycle for my birthday! 🚴‍♀️",
-    goalAmount: 300,
-    currentAmount: 100,
+    userName: "Michael Lee",
+    userHandle: "michaellee",
+    userAvatar: "https://randomuser.me/api/portraits/men/3.jpg",
+    description: "Christmas caroling night – let's spread joy with music! 🎤",
+    eventDate: "2024-12-24",
+    location: "Central Park",
     images: [
-      "https://via.placeholder.com/600x400?text=Bicycle+1",
-      "https://via.placeholder.com/600x400?text=Bicycle+2",
+      "https://res.cloudinary.com/sagacity/image/upload/c_crop,h_3414,w_5121,x_0,y_0/c_limit,dpr_auto,f_auto,fl_lossy,q_80,w_1080/shutterstock_1570325434_ypqrc8.jpg",
+      "https://www.denverpost.com/wp-content/uploads/2018/12/AFP_1BS5W8.jpg?w=1024",
+      
     ],
   },
 ];
 
-
 export default function Home() {
-  const handleWishSubmit = (data) => {
-    console.log("Wish Submitted:", data);
+  const handleEventSubmit = (data) => {
+    console.log("Event Submitted:", data);
   };
 
   return (
     <>
       <main className="bg-cream text-white flex flex-row max-h-screen">
         <HomeSidebar />
-        <div className="w-2/4 overflow-scroll">
+        <div className="w-2/4 overflow-scroll p-4">
           <CreateCard
-            title="Create an event"
+            title="Create an Event"
             showPrice={false}
             showDeadline={true}
-            onSubmit={handleWishSubmit}
+            onSubmit={handleEventSubmit}
           />
-          <PostsCards data={sampleWishes} type="wish" />
+          <PostsCards data={sampleEvents} type="event" />
         </div>
-        <div className="w-1/4 overflow-scroll">
+        <div className="w-1/4 overflow-scroll p-4">
           <WalletCard />
           <TopDonorsCard />
         </div>

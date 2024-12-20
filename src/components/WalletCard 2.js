@@ -32,20 +32,20 @@ const WalletCard = ({ balance }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-between gap-4 mb-6 flex-wrap">
+      <div className="flex justify-between space-x-2 mb-6">
         <button
           onClick={handleAddMoney}
-          className="bg-yellow-400 text-red-800 px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 flex items-center gap-2 max-w-[150px] w-full"
+          className="flex-1 flex items-center justify-center bg-black hover:bg-gray-800 text-white py-2 px-4 rounded-md transition"
         >
-          <PlusCircle className="w-5 h-5" />
+          <PlusCircle className="w-5 h-5 mr-2" />
           <span>Add Money</span>
         </button>
 
         <button
           onClick={handleWithdraw}
-          className="bg-yellow-400 text-red-800 px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 flex items-center gap-2 max-w-[150px] w-full"
+          className="flex-1 flex items-center justify-center bg-black hover:bg-gray-800 text-white py-2 px-4 rounded-md transition"
         >
-          <DollarSign className="w-5 h-5" />
+          <DollarSign className="w-5 h-5 mr-2" />
           <span>Withdraw</span>
         </button>
       </div>
@@ -55,7 +55,7 @@ const WalletCard = ({ balance }) => {
         <Link href="/track-activities">
           <div className="flex items-center space-x-2 text-black hover:text-gray-800 cursor-pointer transition">
             <Activity className="w-5 h-5" />
-            <span className="font-bold underline">Track Your Activities</span>
+            <span className="font-bold">Track Your Activities</span>
           </div>
         </Link>
       </div>

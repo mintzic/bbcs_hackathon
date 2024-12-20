@@ -1,4 +1,4 @@
-import PostsCards from "@/components/PostsCards";
+import PostsCards from "@/components/WishCard";
 
 const sampleData = [
   {
@@ -9,7 +9,7 @@ const sampleData = [
     goalAmount: 500,
     currentAmount: 150,
     images: [
-      "https://www.gameshome.com.sg/wp-content/uploads/2023/12/51fM0CKGHL._SL1500_-768x512.jpg",
+      "https://via.placeholder.com/600x400?text=Gaming+Console+1",
       "https://via.placeholder.com/600x400?text=Gaming+Console+2",
     ],
   },

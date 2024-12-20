@@ -15,8 +15,18 @@ body {
   font-family: 'Cormorant Garamond', serif;
 }
 
+/* landing-page */
+.landing-hero-pg {
+  background-image: url("/index-bg.png");
+}
 
+.landing-bg-2 {
+  background-image: url("/landing-bg-2.png");
+}
 
+.landing-bg-3 {
+  background-image: url("/landing-bg-3.png");
+}
 /* body {
   font-family: Arial, Helvetica, sans-serif;
 } */
