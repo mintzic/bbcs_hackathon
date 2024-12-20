@@ -1,41 +1,6 @@
 import { NextResponse } from "next/server";
 import db from "@/app/api/db";
 
-export async function GET(request, { params }) {
-  try {
-    const giftId = params.id;
-    const result = await db.query("SELECT * FROM gift WHERE id = $1", [giftId]);
-
-    if (result.rows.length === 0) {
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Gift not found",
-        },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        status: "success",
-        data: result.rows[0],
-      },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Get gift error:", error);
-    return NextResponse.json(
-      {
-        status: "error",
-        message: "Failed to get gift",
-        details: error.message,
-      },
-      { status: 500 }
-    );
-  }
-}
-
 export async function PUT(request, { params }) {
   try {
     const giftId = params.id;
